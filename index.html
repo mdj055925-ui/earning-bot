@@ -161,16 +161,6 @@ body { font-family: 'Inter', sans-serif; background-color: #121212; color: #ffff
 </div>
 <button class="bg-white text-black font-bold px-6 py-2 rounded-lg text-sm btn" onclick="visitWebsite('https://uplcm.com/4/12040775', 30)">Start</button>
 </div>
-<div class="card-bg p-3 rounded-lg flex items-center justify-between">
-<div class="flex items-center space-x-3">
-<span class="text-3xl">🎮</span>
-<div>
-<h3 class="font-semibold">Play Mini Game</h3>
-<p class="text-xs text-gray-400">Big Reward!</p>
-</div>
-</div>
-<button class="bg-green-600 text-white font-bold px-6 py-2 rounded-lg text-sm btn" onclick="claimReward('miniApp')">Play</button>
-</div>
 </div>
 </section>
 </div>
@@ -508,7 +498,7 @@ showAlert(`অভিনন্দন! আপনি ${reward} কয়েন অর�
 
 window.claimReward = async (type) => {
 if (!await validateTask()) return;
-const reward = type === 'miniApp' ? 100 : (appConfig.rewardCoinsPerAd !== undefined ? appConfig.rewardCoinsPerAd : 5);
+const reward = appConfig.rewardCoinsPerAd !== undefined ? appConfig.rewardCoinsPerAd : 5;
 const monetagDirectLink = "https://uplcm.com/4/12040775"; 
 
 if (type === 'interstitial') {
@@ -528,8 +518,6 @@ window.open(monetagDirectLink, '_blank');
 await addReward(reward);
 showLoader(false);
 }
-} else {
-await addReward(reward);
 }
 };
 
