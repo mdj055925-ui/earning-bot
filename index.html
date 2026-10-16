@@ -6,6 +6,8 @@
 <title>Earning Reward</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://unpkg.com/lucide@latest"></script>
+<!-- Monetag Script -->
+<script src='//libtl.com/sdk.js' data-zone='12020192' data-sdk='show_12020192'></script>
 <style>
 body { font-family: 'Inter', sans-serif; background-color: #121212; color: #ffffff; }
 .card-bg { background-color: #1e1e1e; }
@@ -16,10 +18,13 @@ body { font-family: 'Inter', sans-serif; background-color: #121212; color: #ffff
 .btn-accent { background-color: #ff8c00; color: #121212; font-weight: bold; }
 .btn-accent:hover { background-color: #e67e00; }
 .input-field { background-color: #2c2c2c; border: 1px solid #444; color: white; }
+
 .main-page { display: none; }
 .main-page.active { display: flex; animation: fadeIn 0.5s ease-in-out; flex-direction: column; min-height: 100vh; }
+
 .sub-page { display: none; }
-.sub-page.active { display: block; animation: fadeIn 0.3s ease-in-out; }
+.sub-page.active { display: block !important; animation: fadeIn 0.3s ease-in-out; }
+
 .bottom-nav a.active { color: #ff8c00; }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 .ip-warning { background-color: #dc2626; color: white; padding: 10px; border-radius: 8px; margin-bottom: 15px; text-align: center; display: none; }
@@ -56,7 +61,7 @@ body { font-family: 'Inter', sans-serif; background-color: #121212; color: #ffff
 </div>
 
 <!-- Auth Section -->
-<div id="auth-section" class="main-page p-6 justify-center items-center flex-grow">
+<div id="auth-section" class="main-page active p-6 justify-center items-center flex-grow">
 <div class="w-full max-w-sm text-center mb-6">
 <h1 class="text-2xl font-bold text-accent">Earning Reward</h1>
 <p class="text-gray-400 text-sm mt-1">Login or Signup to continue</p>
@@ -85,7 +90,7 @@ body { font-family: 'Inter', sans-serif; background-color: #121212; color: #ffff
 </header>
 <main class="flex-grow overflow-y-auto">
 <!-- Home Page -->
-<div id="home-page" class="p-4 space-y-6 sub-page">
+<div id="home-page" class="p-4 space-y-6 sub-page active">
 <div class="card-bg p-4 rounded-lg flex items-center justify-between border-l-4 border-accent">
 <div>
 <p class="text-gray-400 text-sm">Your Balance</p>
@@ -112,7 +117,7 @@ body { font-family: 'Inter', sans-serif; background-color: #121212; color: #ffff
 </div>
 <button class="bg-white text-orange-500 font-bold px-6 py-2 rounded-lg text-sm btn" onclick="claimReward('interstitial')">Claim</button>
 </div>
-<!-- Website Visit 1 -->
+<!-- Website Visit 1 (Direct Monetag Ad) -->
 <div class="card-bg p-3 rounded-lg flex items-center justify-between">
 <div class="flex items-center space-x-3">
 <span class="text-3xl">🌐</span>
@@ -121,9 +126,9 @@ body { font-family: 'Inter', sans-serif; background-color: #121212; color: #ffff
 <p class="text-xs text-gray-400">Wait 20 Seconds</p>
 </div>
 </div>
-<button class="bg-blue-600 text-white font-bold px-6 py-2 rounded-lg text-sm btn" onclick="visitWebsite('https://earningrewardbot.blogspot.com', 20)">Visit</button>
+<button class="bg-blue-600 text-white font-bold px-6 py-2 rounded-lg text-sm btn" onclick="visitWebsite('https://uplcm.com/4/12040775', 20)">Visit</button>
 </div>
-<!-- Website Visit 2 -->
+<!-- Website Visit 2 (Direct Monetag Ad) -->
 <div class="card-bg p-3 rounded-lg flex items-center justify-between">
 <div class="flex items-center space-x-3">
 <span class="text-3xl">🌐</span>
@@ -132,9 +137,9 @@ body { font-family: 'Inter', sans-serif; background-color: #121212; color: #ffff
 <p class="text-xs text-gray-400">Wait 20 Seconds</p>
 </div>
 </div>
-<button class="bg-blue-600 text-white font-bold px-6 py-2 rounded-lg text-sm btn" onclick="visitWebsite('https://earningrewardbot2.blogspot.com', 20)">Visit</button>
+<button class="bg-blue-600 text-white font-bold px-6 py-2 rounded-lg text-sm btn" onclick="visitWebsite('https://uplcm.com/4/12040775', 20)">Visit</button>
 </div>
-<!-- Website Visit 3 -->
+<!-- Website Visit 3 (Direct Monetag Ad) -->
 <div class="card-bg p-3 rounded-lg flex items-center justify-between">
 <div class="flex items-center space-x-3">
 <span class="text-3xl">🌐</span>
@@ -143,9 +148,9 @@ body { font-family: 'Inter', sans-serif; background-color: #121212; color: #ffff
 <p class="text-xs text-gray-400">Wait 20 Seconds</p>
 </div>
 </div>
-<button class="bg-blue-600 text-white font-bold px-6 py-2 rounded-lg text-sm btn" onclick="visitWebsite('https://jakir17.blogspot.com', 20)">Visit</button>
+<button class="bg-blue-600 text-white font-bold px-6 py-2 rounded-lg text-sm btn" onclick="visitWebsite('https://uplcm.com/4/12040775', 20)">Visit</button>
 </div>
-<!-- Special Task Click -->
+<!-- Special Task Click (Direct Monetag Ad) -->
 <div class="card-bg p-3 rounded-lg flex items-center justify-between">
 <div class="flex items-center space-x-3">
 <span class="text-3xl">⭐</span>
@@ -388,7 +393,6 @@ await setDoc(userRef, userData);
 }
 }
 
-// রিয়েল-টাইম অ্যাডমিন কনফিগারেশন লিসেনার
 function listenAppConfig() {
 onSnapshot(doc(db, "config", "main"), (snap) => {
 if (snap.exists()) {
@@ -431,7 +435,9 @@ minInfo.textContent = `Minimum: ${appConfig.minWithdrawal || 100} Coins`;
 
 window.navigateTo = function(pageId) {
 document.querySelectorAll(".sub-page").forEach(p => p.classList.remove("active"));
-document.getElementById(pageId).classList.add("active");
+const target = document.getElementById(pageId);
+if(target) target.classList.add("active");
+
 document.querySelectorAll(".nav-link").forEach(link => {
 link.classList.remove("active", "text-accent");
 if (link.dataset.page === pageId) link.classList.add("active", "text-accent");
@@ -454,23 +460,30 @@ return false;
 return true;
 }
 
+// ওয়েবসাইট ভিজিট ও ডাইরেক্ট মনিট্যাগ এড ফাংশন
 window.visitWebsite = async function(url, seconds) {
-if (!await validateTask()) return;
-window.open(url, '_blank');
-timerModal.classList.remove('hidden');
-let timeLeft = seconds;
-countdownDisplay.textContent = timeLeft;
-const interval = setInterval(async () => {
-timeLeft--;
-countdownDisplay.textContent = timeLeft;
-if (timeLeft <= 0) {
-clearInterval(interval);
-timerModal.classList.add('hidden');
-const reward = appConfig.rewardCoinsPerAd !== undefined ? appConfig.rewardCoinsPerAd : 5;
-await addReward(reward);
-}
-}, 1000);
-}
+    if (!await validateTask()) return;
+    
+    let win = window.open(url, '_blank');
+    if (!win || win.closed || typeof win.closed == 'undefined') {
+        window.location.href = url;
+    }
+
+    timerModal.classList.remove('hidden');
+    let timeLeft = seconds;
+    countdownDisplay.textContent = timeLeft;
+    
+    const interval = setInterval(async () => {
+        timeLeft--;
+        countdownDisplay.textContent = timeLeft;
+        if (timeLeft <= 0) {
+            clearInterval(interval);
+            timerModal.classList.add('hidden');
+            const reward = appConfig.rewardCoinsPerAd !== undefined ? appConfig.rewardCoinsPerAd : 5;
+            await addReward(reward);
+        }
+    }, 1000);
+};
 
 async function addReward(reward) {
 if (currentUser) {
@@ -496,7 +509,28 @@ showAlert(`অভিনন্দন! আপনি ${reward} কয়েন অর�
 window.claimReward = async (type) => {
 if (!await validateTask()) return;
 const reward = type === 'miniApp' ? 100 : (appConfig.rewardCoinsPerAd !== undefined ? appConfig.rewardCoinsPerAd : 5);
+const monetagDirectLink = "https://uplcm.com/4/12040775"; 
+
+if (type === 'interstitial') {
+showLoader(true);
+if (typeof window.show_12020192 === 'function') {
+try {
+await window.show_12020192();
 await addReward(reward);
+} catch (e) {
+window.open(monetagDirectLink, '_blank');
+await addReward(reward);
+} finally {
+showLoader(false);
+}
+} else {
+window.open(monetagDirectLink, '_blank');
+await addReward(reward);
+showLoader(false);
+}
+} else {
+await addReward(reward);
+}
 };
 
 async function handleSignup() {
