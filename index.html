@@ -9,7 +9,14 @@
 <!-- Monetag Script -->
 <script src='//libtl.com/sdk.js' data-zone='12020192' data-sdk='show_12020192'></script>
 <style>
-body { font-family: 'Inter', sans-serif; background-color: #121212; color: #ffffff; }
+body { 
+    font-family: 'Inter', sans-serif; 
+    background-color: #121212; 
+    color: #ffffff; 
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
 .card-bg { background-color: #1e1e1e; }
 .border-accent { border-color: #ff8c00; }
 .text-accent { color: #ff8c00; }
@@ -19,10 +26,12 @@ body { font-family: 'Inter', sans-serif; background-color: #121212; color: #ffff
 .btn-accent:hover { background-color: #e67e00; }
 .input-field { background-color: #2c2c2c; border: 1px solid #444; color: white; }
 
-.main-page { display: none; }
-.main-page.active { display: flex; animation: fadeIn 0.5s ease-in-out; flex-direction: column; min-height: 100vh; }
+/* Main Section Control */
+.main-page { display: none !important; }
+.main-page.active { display: flex !important; animation: fadeIn 0.3s ease-in-out; flex-direction: column; min-height: 100vh; }
 
-.sub-page { display: none; }
+/* Sub Page Control */
+.sub-page { display: none !important; }
 .sub-page.active { display: block !important; animation: fadeIn 0.3s ease-in-out; }
 
 .bottom-nav a.active { color: #ff8c00; }
@@ -38,9 +47,9 @@ body { font-family: 'Inter', sans-serif; background-color: #121212; color: #ffff
 </div>
 
 <!-- Loader Modal -->
-<div id="loader" class="hidden fixed inset-0 bg-black bg-opacity-70 z-50 flex flex-col items-center justify-center">
+<div id="loader" class="fixed inset-0 bg-black bg-opacity-80 z-50 flex flex-col items-center justify-center">
 <div class="animate-spin rounded-full h-12 w-12 border-t-4 border-orange-500 border-solid mb-3"></div>
-<p class="text-white font-medium">Please Wait</p>
+<p class="text-white font-medium">Please Wait...</p>
 </div>
 
 <!-- Timer Modal -->
@@ -60,8 +69,8 @@ body { font-family: 'Inter', sans-serif; background-color: #121212; color: #ffff
 </div>
 </div>
 
-<!-- Auth Section -->
-<div id="auth-section" class="main-page active p-6 justify-center items-center flex-grow">
+<!-- Auth Section (লগইন/সাইনআপ) -->
+<div id="auth-section" class="main-page p-6 justify-center items-center flex-grow">
 <div class="w-full max-w-sm text-center mb-6">
 <h1 class="text-2xl font-bold text-accent">Earning Reward</h1>
 <p class="text-gray-400 text-sm mt-1">Login or Signup to continue</p>
@@ -83,12 +92,13 @@ body { font-family: 'Inter', sans-serif; background-color: #121212; color: #ffff
 </div>
 </div>
 
-<!-- Main App Container -->
+<!-- Main App Container (ড্যাশবোর্ড/হোম) -->
 <div id="app-container" class="main-page flex-grow flex flex-col justify-between">
-<header class="p-4 card-bg border-b border-gray-800 flex justify-between items-center">
+<header class="p-4 card-bg border-b border-gray-800 flex justify-between items-center sticky top-0 z-10">
 <h1 class="text-lg font-bold text-accent">Earning Reward</h1>
 </header>
-<main class="flex-grow overflow-y-auto">
+
+<main class="flex-grow overflow-y-auto pb-16">
 <!-- Home Page -->
 <div id="home-page" class="p-4 space-y-6 sub-page active">
 <div class="card-bg p-4 rounded-lg flex items-center justify-between border-l-4 border-accent">
@@ -117,7 +127,7 @@ body { font-family: 'Inter', sans-serif; background-color: #121212; color: #ffff
 </div>
 <button class="bg-white text-orange-500 font-bold px-6 py-2 rounded-lg text-sm btn" onclick="claimReward('interstitial')">Claim</button>
 </div>
-<!-- Website Visit 1 (Direct Monetag Ad) -->
+<!-- Website Visit 1 -->
 <div class="card-bg p-3 rounded-lg flex items-center justify-between">
 <div class="flex items-center space-x-3">
 <span class="text-3xl">🌐</span>
@@ -128,7 +138,7 @@ body { font-family: 'Inter', sans-serif; background-color: #121212; color: #ffff
 </div>
 <button class="bg-blue-600 text-white font-bold px-6 py-2 rounded-lg text-sm btn" onclick="visitWebsite('https://uplcm.com/4/12040775', 20)">Visit</button>
 </div>
-<!-- Website Visit 2 (Direct Monetag Ad) -->
+<!-- Website Visit 2 -->
 <div class="card-bg p-3 rounded-lg flex items-center justify-between">
 <div class="flex items-center space-x-3">
 <span class="text-3xl">🌐</span>
@@ -139,7 +149,7 @@ body { font-family: 'Inter', sans-serif; background-color: #121212; color: #ffff
 </div>
 <button class="bg-blue-600 text-white font-bold px-6 py-2 rounded-lg text-sm btn" onclick="visitWebsite('https://uplcm.com/4/12040775', 20)">Visit</button>
 </div>
-<!-- Website Visit 3 (Direct Monetag Ad) -->
+<!-- Website Visit 3 -->
 <div class="card-bg p-3 rounded-lg flex items-center justify-between">
 <div class="flex items-center space-x-3">
 <span class="text-3xl">🌐</span>
@@ -150,7 +160,7 @@ body { font-family: 'Inter', sans-serif; background-color: #121212; color: #ffff
 </div>
 <button class="bg-blue-600 text-white font-bold px-6 py-2 rounded-lg text-sm btn" onclick="visitWebsite('https://uplcm.com/4/12040775', 20)">Visit</button>
 </div>
-<!-- Special Task Click (Direct Monetag Ad) -->
+<!-- Special Task Click -->
 <div class="card-bg p-3 rounded-lg flex items-center justify-between">
 <div class="flex items-center space-x-3">
 <span class="text-3xl">⭐</span>
@@ -220,7 +230,7 @@ body { font-family: 'Inter', sans-serif; background-color: #121212; color: #ffff
 </main>
 
 <!-- Bottom Navigation -->
-<nav class="bottom-nav sticky bottom-0 grid grid-cols-4 items-center text-center py-2 card-bg border-t border-gray-800">
+<nav class="bottom-nav fixed bottom-0 left-0 right-0 grid grid-cols-4 items-center text-center py-2 card-bg border-t border-gray-800 z-20">
 <a href="#" class="nav-link active" data-page="home-page"><i data-lucide="home" class="mx-auto w-5 h-5"></i><span class="text-[10px]">Home</span></a>
 <a href="#" class="nav-link" data-page="wallet-page"><i data-lucide="wallet" class="mx-auto w-5 h-5"></i><span class="text-[10px]">Wallet</span></a>
 <a href="#" class="nav-link" data-page="refer-page"><i data-lucide="users" class="mx-auto w-5 h-5"></i><span class="text-[10px]">Refer</span></a>
@@ -337,9 +347,9 @@ onAuthStateChanged(auth, handleAuthStateChange);
 };
 
 async function handleAuthStateChange(user) {
+showLoader(true);
 if (user) {
 currentUser = user;
-showLoader(true);
 const sessionValid = await checkActiveSession();
 if (!sessionValid) {
 showLoader(false);
@@ -355,11 +365,11 @@ return;
 updateUI();
 showMainPage('app-container');
 navigateTo('home-page');
-showLoader(false);
 } else {
 await cleanupSession();
 showMainPage('auth-section');
 }
+showLoader(false);
 }
 
 async function fetchUserData() {
@@ -450,7 +460,6 @@ return false;
 return true;
 }
 
-// ওয়েবসাইট ভিজিট ও ডাইরেক্ট মনিট্যাগ এড ফাংশন
 window.visitWebsite = async function(url, seconds) {
     if (!await validateTask()) return;
     
@@ -651,11 +660,13 @@ e.preventDefault();
 navigateTo(l.dataset.page);
 };
 });
-document.getElementById('show-signup').onclick = () => {
+document.getElementById('show-signup').onclick = (e) => {
+e.preventDefault();
 document.getElementById('login-view').classList.add('hidden');
 document.getElementById('signup-view').classList.remove('hidden');
 };
-document.getElementById('show-login').onclick = () => {
+document.getElementById('show-login').onclick = (e) => {
+e.preventDefault();
 document.getElementById('signup-view').classList.add('hidden');
 document.getElementById('login-view').classList.remove('hidden');
 };
@@ -663,7 +674,8 @@ document.getElementById('login-view').classList.remove('hidden');
 
 function showMainPage(id) {
 document.querySelectorAll('.main-page').forEach(p => p.classList.remove('active'));
-document.getElementById(id).classList.add('active');
+const target = document.getElementById(id);
+if(target) target.classList.add('active');
 }
 
 function showLoader(s) {
