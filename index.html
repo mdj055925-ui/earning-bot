@@ -251,15 +251,48 @@ const timerModal = document.getElementById('timer-modal');
 const countdownDisplay = document.getElementById('countdown-display');
 const ipWarning = document.getElementById('ip-warning');
 
-// Adsgram Controller Initialization with Block ID 54709
+
+/* AdsGram Reward Ad — Block ID: 54709 */
 let adController = null;
-try {
-    if (window.Adsgram) {
-        adController = window.Adsgram.init({ blockId: "54709" });
+let isShowingAdsgram = false;
+
+window.showAdsgramAd = async function () {
+    if (isShowingAdsgram) return;
+    if (!await validateTask()) return;
+
+    isShowingAdsgram = true;
+    showLoader(true);
+
+    try {
+        if (!window.Adsgram) {
+            throw new Error("AdsGram SDK is not loaded");
+        }
+
+        if (!adController) {
+            adController = window.Adsgram.init({
+                blockId: "54709",
+                debug: false
+            });
+        }
+
+        const result = await adController.show();
+
+        if (result && result.done === true && result.error !== true) {
+            const reward = appConfig.rewardCoinsPerAd ?? 5;
+            await addReward(reward);
+        } else {
+            showAlert("বিজ্ঞাপন সম্পূর্ণ হয়নি। কোনো কয়েন দেওয়া হয়নি।");
+        }
+
+    } catch (error) {
+        console.error("AdsGram error:", error);
+        showAlert("বিজ্ঞাপন লোড হয়নি বা সম্পূর্ণ হয়নি। পরে আবার চেষ্টা করুন।");
+    } finally {
+        showLoader(false);
+        isShowingAdsgram = false;
     }
-} catch (e) {
-    console.log("Adsgram init error:", e);
-}
+};
+
 
 window.showAdsgramAd = async function() {
     if (!await validateTask()) return;
