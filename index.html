@@ -48,8 +48,8 @@ body {
 </div>  <!-- Timer Modal -->  <div id="timer-modal" class="hidden fixed inset-0 bg-black bg-opacity-80 z-50 flex flex-col items-center justify-center p-4">  
 <div class="card-bg p-6 rounded-2xl text-center max-w-xs w-full border border-accent">  
 <h3 class="text-lg font-bold mb-2">Task in Progress</h3>  
-<p class="text-gray-400 text-sm mb-4">Please wait until the timer finishes.</p>  
-<div id="countdown-display" class="text-4xl font-extrabold text-accent mb-4">0</div>  
+<p class="text-gray-400 text-sm mb-4">Please watch for at least 20 seconds to get reward.</p>  
+<div id="countdown-display" class="text-4xl font-extrabold text-accent mb-4">20</div>  
 </div>  
 </div>  <!-- Custom Alert Modal -->  <div id="custom-alert" class="hidden fixed inset-0 bg-black bg-opacity-80 z-50 flex flex-col items-center justify-center p-4">  
 <div class="card-bg p-6 rounded-2xl text-center max-w-xs w-full border border-accent">  
@@ -93,7 +93,7 @@ body {
 <div class="flex justify-between items-center mb-3">  
 <div>  
 <h2 class="text-lg font-semibold">Daily Tasks</h2>  
-<p class="text-xs text-gray-400">প্রতিদিন নিয়মিত কাজ করে রিওয়ার্ড সংগ্রহ করুন।</p>  
+<p class="text-xs text-gray-400">প্রতিদিন নিয়মিত কাজ করে রিওয়ার্ড সংগ্রহ করুন (কমপক্ষে ২০ সেকেন্ড দেখুন)।</p>  
 </div>  
 <p class="text-xs text-gray-400">Tasks Left: <span id="ads-left-count">...</span></p>  
 </div>  
@@ -103,7 +103,7 @@ body {
 <span class="text-3xl">🎁</span>  
 <div>  
 <h3 class="font-bold">Watch Video Ad</h3>  
-<p class="text-xs font-medium">Instant Reward</p>  
+<p class="text-xs font-medium">Watch 20s Reward</p>  
 </div>  
 </div>  
 <button class="bg-white text-orange-500 font-bold px-6 py-2 rounded-lg text-sm btn" onclick="claimReward('interstitial')">Claim</button>  
@@ -112,7 +112,7 @@ body {
 <span class="text-3xl">📺</span>  
 <div>  
 <h3 class="font-semibold text-accent">Adsgram Video Ad</h3>  
-<p class="text-xs text-gray-400">Watch & Earn Coins</p>  
+<p class="text-xs text-gray-400">Watch 20s & Earn Coins</p>  
 </div>  
 </div>  
 <button class="bg-orange-500 text-black font-bold px-6 py-2 rounded-lg text-sm btn" onclick="showAdsgramAd()">Watch</button>  
@@ -121,7 +121,7 @@ body {
 <span class="text-3xl">⭐</span>  
 <div>  
 <h3 class="font-semibold">Special Task Click</h3>  
-<p class="text-xs text-gray-400">Wait 30 Seconds</p>  
+<p class="text-xs text-gray-400">Wait 20 Seconds</p>  
 </div>  
 </div>  
 <button class="bg-white text-black font-bold px-6 py-2 rounded-lg text-sm btn" onclick="claimSpecialTask()">Start</button>  
@@ -219,32 +219,47 @@ try {
     console.log("Adsgram init error:", e);  
 }  
   
+// ২০ সেকেন্ড টাইমার সহ Adsgram অ্যাড লজিক
 window.showAdsgramAd = async function() {  
     if (!await validateTask()) return;  
-    showLoader(true);  
+    
     if (adController) {  
-        adController.show().then(async (result) => {  
-            showLoader(false);  
-            const reward = appConfig.rewardCoinsPerAd !== undefined ? appConfig.rewardCoinsPerAd : 5;  
-            await addReward(reward);  
-        }).catch((result) => {  
-            showLoader(false);  
+        try {  
+            // প্রথমে Adsgram অ্যাড শো করা শুরু হবে
+            await adController.show();  
+            
+            // অ্যাড ওপেন হওয়ার পর ২০ সেকেন্ডের টাইমার পপআপ রান হবে
+            timerModal.classList.remove('hidden');  
+            let timeLeft = 20;  
+            countdownDisplay.textContent = timeLeft;  
+              
+            const interval = setInterval(async () => {  
+                timeLeft--;  
+                countdownDisplay.textContent = timeLeft;  
+                if (timeLeft <= 0) {  
+                    clearInterval(interval);  
+                    timerModal.classList.add('hidden');  
+                    const reward = appConfig.rewardCoinsPerAd !== undefined ? appConfig.rewardCoinsPerAd : 5;  
+                    await addReward(reward);  
+                }  
+            }, 1000);  
+
+        } catch (result) {  
             showAlert("অ্যাড দেখতে সমস্যা হয়েছে অথবা স্কিপ করা হয়েছে।");  
-        });  
+        }  
     } else {  
-        showLoader(false);  
         showAlert("Adsgram লোড হতে সমস্যা হয়েছে।");  
     }  
 };  
   
-// Special Task Monetag Direct Link Function  
+// Special Task / Monetag Direct Link Function (20 Seconds Timer)  
 window.claimSpecialTask = async function() {  
     if (!await validateTask()) return;  
     const monetagDirectLink = "https://uplcm.com/4/12040775";  
     window.open(monetagDirectLink, '_blank');  
   
     timerModal.classList.remove('hidden');  
-    let timeLeft = 30;  
+    let timeLeft = 20;  
     countdownDisplay.textContent = timeLeft;  
       
     const interval = setInterval(async () => {  
@@ -278,7 +293,6 @@ localStorage.setItem('device_id', devId);
 return devId;  
 }  
   
-// Updated checkDeviceSecurity to prevent multiple device block issue  
 async function checkDeviceSecurity() {  
 const userRef = doc(db, "users", currentUser.uid);  
 const userSnap = await getDoc(userRef);  
@@ -443,30 +457,6 @@ return false;
 return true;  
 }  
   
-window.visitWebsite = async function(url, seconds) {  
-    if (!await validateTask()) return;  
-      
-    let win = window.open(url, '_blank');  
-    if (!win || win.closed || typeof win.closed == 'undefined') {  
-        window.location.href = url;  
-    }  
-  
-    timerModal.classList.remove('hidden');  
-    let timeLeft = seconds;  
-    countdownDisplay.textContent = timeLeft;  
-      
-    const interval = setInterval(async () => {  
-        timeLeft--;  
-        countdownDisplay.textContent = timeLeft;  
-        if (timeLeft <= 0) {  
-            clearInterval(interval);  
-            timerModal.classList.add('hidden');  
-            const reward = appConfig.rewardCoinsPerAd !== undefined ? appConfig.rewardCoinsPerAd : 5;  
-            await addReward(reward);  
-        }  
-    }, 1000);  
-};  
-  
 async function addReward(reward) {  
 if (currentUser) {  
 try {  
@@ -488,29 +478,38 @@ updateUI();
 showAlert(`অভিনন্দন! আপনি ${reward} কয়েন অর্জন করেছেন।`);  
 }  
   
+// Watch Video Ad (Interstitial / Monetag) with 20 seconds timer verification
 window.claimReward = async (type) => {  
-if (!await validateTask()) return;  
-const reward = appConfig.rewardCoinsPerAd !== undefined ? appConfig.rewardCoinsPerAd : 5;  
-const monetagDirectLink = "https://uplcm.com/4/12040775";   
-  
-if (type === 'interstitial') {  
-showLoader(true);  
-if (typeof window.show_12020192 === 'function') {  
-try {  
-await window.show_12020192();  
-await addReward(reward);  
-} catch (e) {  
-window.open(monetagDirectLink, '_blank');  
-await addReward(reward);  
-} finally {  
-showLoader(false);  
-}  
-} else {  
-window.open(monetagDirectLink, '_blank');  
-await addReward(reward);  
-showLoader(false);  
-}  
-}  
+    if (!await validateTask()) return;  
+    const reward = appConfig.rewardCoinsPerAd !== undefined ? appConfig.rewardCoinsPerAd : 5;  
+    const monetagDirectLink = "https://uplcm.com/4/12040775";   
+      
+    if (type === 'interstitial') {  
+        if (typeof window.show_12020192 === 'function') {  
+            try {  
+                await window.show_12020192();  
+            } catch (e) {  
+                window.open(monetagDirectLink, '_blank');  
+            }  
+        } else {  
+            window.open(monetagDirectLink, '_blank');  
+        }  
+
+        // ২০ সেকেন্ড টাইমার পপআপ চালু হবে (ইউজার ভিডিও কেটে দিলে টাইমার বন্ধ থাকবে এবং কয়েন পাবে না)
+        timerModal.classList.remove('hidden');  
+        let timeLeft = 20;  
+        countdownDisplay.textContent = timeLeft;  
+          
+        const interval = setInterval(async () => {  
+            timeLeft--;  
+            countdownDisplay.textContent = timeLeft;  
+            if (timeLeft <= 0) {  
+                clearInterval(interval);  
+                timerModal.classList.add('hidden');  
+                await addReward(reward);  
+            }  
+        }, 1000);  
+    }  
 };  
   
 async function handleSignup() {  
